@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.btnadmlogin:
                 // code for button when user clicks btnadminlogin.
-                Intent intent = new Intent(MainActivity.this,Admin.class);
+                Intent intent = new Intent(MainActivity.this,AdminSignUp.class);
                 startActivity(intent);
                 finish();
                 break;

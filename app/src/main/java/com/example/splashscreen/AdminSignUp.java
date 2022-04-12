@@ -4,14 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.splashscreen.response_object.AdminResponseObject;
+import com.example.splashscreen.services.EndPoints;
+import com.example.splashscreen.services.Repository;
+import com.example.splashscreen.services.RetrofitClientInstance;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+
 public class AdminSignUp extends AppCompatActivity {
 
+
+    private static final String TAG = "TAG";
     EditText edtadmnamesignup,edtadmmailsignup,edtadmpasssignup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +52,67 @@ public class AdminSignUp extends AppCompatActivity {
                     // If name or password is not entered
                     Toast.makeText(AdminSignUp.this, "Enter Password", Toast.LENGTH_SHORT).show();
                 }
-                else {
-                    Intent intent = new Intent(AdminSignUp.this, Admin.class);
-                    startActivity(intent);
-                    finish();
-                }
+                // create admin
+                createAdmin(
+                        adminsignupname,
+                        adminsignupmail,
+                        adminsignuppass
+                );
             }
         });
     }
 
+
+
+
+
+    public void createAdmin(
+            String name,
+            String email,
+            String password
+
+
+            ) {
+
+        Log.d(TAG, "createAdmin: "+"called");
+
+        Repository repository = RetrofitClientInstance.getRetrofitInstance(EndPoints.BASE_URL).create(Repository.class);
+        Call<AdminResponseObject> call = repository.createAdmin(
+                name,
+                email,
+                password
+
+                );
+        call.enqueue(new Callback<AdminResponseObject>() {
+            @Override
+            public void onResponse(Call<AdminResponseObject> call, retrofit2.Response<AdminResponseObject> response) {
+                Log.d(TAG, "onResponse: "+response);
+                if (response.isSuccessful() && response.code() == 200) {
+
+                    Intent intent = new Intent(AdminSignUp.this, Admin.class);
+                    startActivity(intent);
+                    finish();
+
+                }else {
+
+                    Toast.makeText(getBaseContext(), "Error! Check internet connection and try again... "+response.message(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AdminResponseObject> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getLocalizedMessage());
+
+                System.out.println();
+                Toast.makeText(getBaseContext(), "Error! Check internet connection and try again... "+t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
+            }
+
+        });
+
     }
+
+
+
+    }// end func
 

@@ -19,16 +19,17 @@ import retrofit2.http.Query;
 public interface Repository {
 
 
-//
-//
-//    @FormUrlEncoded
-//    @POST("BuildConfig")
-//    Call<AdminResponseObject> lastMilePGcostCalculation(
-//            @Field("package_id") String package_id,
-//            @Field("distance") String distance,
-//            @Field("booking_type") String booking_type,
-//            @Field("customs") String customs
-//    );
+
+
+    @FormUrlEncoded
+    @POST("register_admin")
+    Call<AdminResponseObject> createAdmin(
+
+            @Field("adminname") String name,
+            @Field("adminemail") String email,
+            @Field("adminpassword") String password
+
+    );
 
 //
 //    @GET("BuildConfig")
