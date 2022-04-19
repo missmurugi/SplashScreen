@@ -114,5 +114,5 @@ public class AdminSignUp extends AppCompatActivity {
 
 
 
-    }// end func
+    }// end class
 

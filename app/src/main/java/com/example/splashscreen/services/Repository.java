@@ -31,12 +31,9 @@ public interface Repository {
 
     );
 
-//
-//    @GET("BuildConfig")
-//    Call<AdminResponseObject> distanceMatrix(
-//            @Field("origins") String origins
-//
-//    );
+
+    @GET("fetch_admin")
+    Call<List<AdminResponseObject>> fetchAllAdmin();
 
 
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -11,10 +12,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.splashscreen.response_object.AdminResponseObject;
+import com.example.splashscreen.services.EndPoints;
+import com.example.splashscreen.services.Repository;
+import com.example.splashscreen.services.RetrofitClientInstance;
+
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class Admin extends AppCompatActivity  {
 
+    private static final String TAG = "TAG";
     EditText edtadmname,edtadmpass;
 
     @Override
@@ -28,6 +41,12 @@ public class Admin extends AppCompatActivity  {
         edtadmpass = (EditText) findViewById(R.id.edtadmpass);
         TextView tvadmsignup = (TextView) findViewById(R.id.tvadmsignup);
         TextView tvadmforgot = (TextView) findViewById(R.id.tvadmforgot);
+
+
+        // fetch test
+        fetchAllAdmin();
+
+
 
         admlogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,4 +107,52 @@ public class Admin extends AppCompatActivity  {
             return  true;
         }
     }
-}
+
+
+    public void fetchAllAdmin(
+
+
+
+    ) {
+
+        Log.d(TAG, "fetchAdmin: "+"called");
+
+        Repository repository = RetrofitClientInstance.getRetrofitInstance(EndPoints.BASE_URL).create(Repository.class);
+        Call<List<AdminResponseObject>> call = repository.fetchAllAdmin(
+
+
+        );
+        call.enqueue(new Callback<List<AdminResponseObject>>() {
+            @Override
+            public void onResponse(Call<List<AdminResponseObject>> call, retrofit2.Response<List<AdminResponseObject>> response) {
+                Log.d(TAG, "onResponse: "+response);
+                Log.d(TAG, "onResponse: "+response.body().get(0));
+                if (response.isSuccessful() && response.code() == 200) {
+
+
+                    List<AdminResponseObject> adminResponseObjectList = response.body();
+                    if (adminResponseObjectList != null)
+                    Toast.makeText(getBaseContext(),
+                             "name[1]: "+adminResponseObjectList.get(1).getAdminemail(),
+                            Toast.LENGTH_LONG).show();
+
+
+                }else {
+
+                    Toast.makeText(getBaseContext(), "Error! Check internet connection and try again... "+response.message(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<AdminResponseObject>> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getLocalizedMessage());
+
+                System.out.println();
+                Toast.makeText(getBaseContext(), "Error! Check internet connection and try again... "+t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
+            }
+
+        });
+
+    }
+} // end class

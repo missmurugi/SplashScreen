@@ -1,10 +1,18 @@
 package com.example.splashscreen.response_object;
 
+
+/**
+ *   RowDataPacket {
+ *     adminid: 12,
+ *     adminname: '5',
+ *     adminemail: '5',
+ *     adminpassword: '5'
+ */
 public class AdminResponseObject {
     private int record_id;
-    private String name;
-    private String email;
-    private String password;
+    private String adminname;
+    private String adminemail;
+    private String adminpassword;
 
     public int getRecord_id() {
         return record_id;
@@ -14,27 +22,28 @@ public class AdminResponseObject {
         this.record_id = record_id;
     }
 
-    public String getName() {
-        return name;
+
+    public String getAdminname() {
+        return adminname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAdminname(String adminname) {
+        this.adminname = adminname;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAdminemail() {
+        return adminemail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAdminemail(String adminemail) {
+        this.adminemail = adminemail;
     }
 
-    public String getPassword() {
-        return password;
+    public String getAdminpassword() {
+        return adminpassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAdminpassword(String adminpassword) {
+        this.adminpassword = adminpassword;
     }
 }
